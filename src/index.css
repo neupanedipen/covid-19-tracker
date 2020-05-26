@@ -70,3 +70,8 @@ h3{
   color: red;
   font-size: 2rem;
 }
+
+.strong {
+  margin-top: 10px;
+  font-size: 1.7rem;
+}
