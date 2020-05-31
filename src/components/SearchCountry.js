@@ -6,7 +6,6 @@ const SearchCountry = () => {
     const [details, setDetails] = useState({});
     const [countInfo, setCountryInfo] = useState({})
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(false);
 
     const search = async e => {
         setLoading(true);
@@ -25,27 +24,40 @@ const SearchCountry = () => {
         try {
             const res = await fetch(url);
             const data = await res.json();
-            if (res.ok) {
-                setDetails(data)
-                setCountry("")
-                setCountryInfo({})
-                setLoading(false)
-            } else {
-                setError(true);
-                setCountry("")
-            }
+            setDetails(data)
+            setCountry("")
+            setCountryInfo({})
+            setLoading(false)
 
             const info = await data.countryInfo
             setCountryInfo(info)
             setLoading(false);
+
 
         }
 
         catch (err) {
             console.log(err);
         }
-
     }
+
+    //         if (res.ok) {
+    //             setDetails(data)
+    //             setCountry("")
+    //             setCountryInfo({})
+    //             setLoading(false)
+    //         } else {
+    //             setError(true);
+    //             setCountry("")
+    //         }
+
+
+
+    //     catch (err) {
+    //         console.log(err);
+    //     }
+
+    // }
 
 
     return (
@@ -70,20 +82,16 @@ const SearchCountry = () => {
 
 
 
-            {error ? <div><h3>Something went wrong. Reload Page</h3>
-            </div>
-                :
-                <DisplayData
-                    imgSrc={countInfo.flag}
-                    cases={details.cases}
-                    deaths={details.deaths}
-                    recovered={details.recovered}
-                    todayCases={details.todayCases}
-                    loading={loading}
-                    altText={`${details.country} flag`}
-                />
-
-            }
+            <DisplayData
+                imgSrc={countInfo.flag}
+                cases={details.cases}
+                deaths={details.deaths}
+                recovered={details.recovered}
+                todayCases={details.todayCases}
+                error={details.message}
+                loading={loading}
+                altText={`${details.country} flag`}
+            />
         </>
     )
 }
