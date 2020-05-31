@@ -6,6 +6,8 @@ const SearchCountry = () => {
     const [details, setDetails] = useState({});
     const [countInfo, setCountryInfo] = useState({})
     const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(false);
+
 
     const search = async e => {
         setLoading(true);
@@ -24,10 +26,15 @@ const SearchCountry = () => {
         try {
             const res = await fetch(url);
             const data = await res.json();
-            setDetails(data)
-            setCountry("")
-            setCountryInfo({})
-            setLoading(false)
+            if (res.ok) {
+                setDetails(data)
+                setCountry("")
+                setCountryInfo({})
+                setLoading(false)
+            } else {
+                setError(true)
+                setCountry("")
+            }
 
             const info = await data.countryInfo
             setCountryInfo(info)
@@ -80,18 +87,19 @@ const SearchCountry = () => {
                 </button>
             </form>
 
+            {
+                error ? <h3 className="error">Error : Country Not Found or Mis-spelled. Please reload</h3> : <DisplayData
+                    imgSrc={countInfo.flag}
+                    cases={details.cases}
+                    deaths={details.deaths}
+                    recovered={details.recovered}
+                    todayCases={details.todayCases}
+                    loading={loading}
+                    altText={`${details.country} flag`}
+                />
+            }
 
 
-            <DisplayData
-                imgSrc={countInfo.flag}
-                cases={details.cases}
-                deaths={details.deaths}
-                recovered={details.recovered}
-                todayCases={details.todayCases}
-                error={details.message}
-                loading={loading}
-                altText={`${details.country} flag`}
-            />
         </>
     )
 }

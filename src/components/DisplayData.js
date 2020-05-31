@@ -2,7 +2,8 @@ import React from 'react'
 import Spinner from './Spinner'
 
 const DisplayData = (props) => {
-    const { cases, deaths, recovered, todayCases, imgSrc } = props;
+    const { cases, deaths, recovered, todayCases, imgSrc, error } = props;
+
     if (props.loading) {
         return <Spinner />
     } else if (cases) {
@@ -19,7 +20,7 @@ const DisplayData = (props) => {
     }
     else {
         return (
-            <h2>{props.error}</h2>
+            <h2>{error}</h2>
         )
     }
 }
